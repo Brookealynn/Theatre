@@ -1,4 +1,4 @@
-<!DOCTYPE><!DOCTYPE>
+<!DOCTYPE>
 <html>
 
 	<head>
@@ -27,7 +27,9 @@
 		<form action="login.php" method="post">
 		<center>
 		<p>Account Number:</p>
-		<input type="text" id="textbox" name="firstname">
+		<input type="text" id="textbox" name="accountnum">
+		<p>Password:</p>
+		<input type="text" id="textbox" name="password"> <br>
 		<input name="login" type="submit">
 		</form>
 		</center>
@@ -41,14 +43,16 @@
 			}
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				// if ($_POST['login'] == $_POST['confirm-login']){
-				if((isset($_POST['login']))) {
+				if(isset($_POST['accountnum']) && isset($_POST['password'])) {
 					//value of input
-					$account_num = $_POST['firstname'];
+					$account_num = $_POST['accountnum'];
+					$account_password = $_POST['password'];
 					// echo $account_num;
 				} 
-				$sql = "SELECT * FROM customers WHERE ACCOUNT_NUM= '$account_num'";
+				$sql = "SELECT * FROM `customers` WHERE ACCOUNT_NUM= '$account_num' AND ACCOUNT_PASSWORD = '$account_password'";
 				//Query
 				$result = mysqli_query($mysqli, $sql) or die();	
+				echo "hi";
 				//Check if the value exists in the table Customers
 				//Getting value at account_num
 				// while ($row = mysqli_fetch_array($result)) {
@@ -59,18 +63,20 @@
 				if ($count !==1) {
 					echo "login failed";
 				}
+				else{
+					$sql2 = "SELECT * FROM `customers` WHERE ACCOUNT_NUM= '$account_num' AND ACCOUNT_PASSWORD = '$account_password'";
 
-				$sql2 = "SELECT * FROM customers WHERE ACCOUNT_NUM= '$account_num'";
 
+					$result2 = mysqli_query($mysqli, $sql2);
 
-				$result2 = mysqli_query($mysqli, $sql2);
-
-				if ($result == NULL) {
-					header("location: theatrecomplex.php");
+					$row = $result2 -> fetch_assoc();
+					if (($row["PRIMARY_COMPLEX"]) == NULL) {
+						header("location: selectprimarycomplex.php");
 				} 
-				if ($count == 1) {
-					header("location: newpage.php");
-				} 
+				}
+
+
+				
 			 }
 		
 		?>

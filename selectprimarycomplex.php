@@ -49,22 +49,34 @@
 			}
 			else {
 				echo "0 results";
+			}
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				// if ($_POST['login'] == $_POST['confirm-login']){
 				if(isset($_POST['theatrecomplexname'])) {
 					//value of input
 					$userinput = $_POST['theatrecomplexname'];
 					// echo $account_num;
-					}
-				} 
-				$sql2 ="SELECT COMPLEX_ID FROM `THEATER_COMPLEXES` WHERE COMPLEX_NAME = '$userinput'";
-				$result2 = mysqli_query($mysqli, $sql2);
-				
-				$row = $result2 -> fetch_assoc();
-				$movieid = $row["COMPLEX_ID"];
-				
+					$sql2 ="SELECT COMPLEX_ID FROM `THEATER_COMPLEXES` WHERE COMPLEX_NAME = '$userinput'";
 
+					$result2 = mysqli_query($mysqli, $sql2) or die();
+
+					$row = $result2 -> fetch_assoc();
+
+					$movieid = $row["COMPLEX_ID"];
+					echo $movieid;
+					$sql3 ="SELECT COMPLEX_ID FROM `THEATERS_MOVIES` WHERE COMPLEX_ID= '$userinput'";
+					echo "hi";
+					$result3 = mysqli_query($mysqli, $sql3) or die();
+					echo "hello";
+
+					if($result3 -> num_rows > 0) { 
+						while ($row = $result3 -> fetch_assoc()) {
+							echo $row["TITLE"]."<br>";
+						}
+					}
+				}
 			}
+
 
 
 		

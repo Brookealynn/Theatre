@@ -16,7 +16,6 @@
 		  <li><a href="./purchasetickets.html">Purchase Tickets</a></li>
 		  <li><a href="./browsemovies.php">Browse Movies</a></li>
 		  <li><a href="#about">Theatres</a></li> -->
-		  <li style="float:right"><a class="active" href="./login.php">Login</a></li>
 		  <li style="float:right"><a class="active" href="./signup.php">Sign Up</a></li>
 		</ul>
 		</nav>
@@ -36,7 +35,7 @@
 		
 		<?php
 			session_start();
-			$mysqli = mysqli_connect('localhost', 'root', '', 'movies');
+			$mysqli = mysqli_connect('localhost', 'root', 'tuid2y17', 'movies');
 
 			if($mysqli == false) {
 				die("Error" . mysqli_connect_error());
@@ -51,8 +50,12 @@
 				} 
 				$sql = "SELECT * FROM `customers` WHERE ACCOUNT_NUM= '$account_num' AND ACCOUNT_PASSWORD = '$account_password'";
 				//Query
-				$result = mysqli_query($mysqli, $sql) or die();	
-				echo "hi";
+				$result = mysqli_query($mysqli, $sql) or die();
+
+				$row = $result -> fetch_assoc();
+
+				$_SESSION["username"] = $row["FNAME"];
+				$_SESSION["userID"] = $row["ACCOUNT_NUM"];
 				//Check if the value exists in the table Customers
 				//Getting value at account_num
 				// while ($row = mysqli_fetch_array($result)) {
